@@ -1,0 +1,120 @@
+[{
+  "id" : "1",
+  "username" : "ischmidt",
+  "first_name" : "Ian",
+  "last_name" : "Schmidt"
+},
+{
+  "id" : "2",
+  "username" : "mfloyd",
+  "first_name" : "Marlon",
+  "last_name" : "Floyd"
+},
+{
+  "id" : "3",
+  "username" : "bgibson",
+  "first_name" : "Bessie",
+  "last_name" : "Gibson"
+},
+{
+  "id" : "4",
+  "username" : "devans",
+  "first_name" : "Darrell",
+  "last_name" : "Evans"
+},
+{
+  "id" : "5",
+  "username" : "gnguyen",
+  "first_name" : "Guillermo",
+  "last_name" : "Nguyen"
+},
+{
+  "id" : "6",
+  "username" : "ebennett",
+  "first_name" : "Evan",
+  "last_name" : "Bennett"
+},
+{
+  "id" : "7",
+  "username" : "cmorales",
+  "first_name" : "Christopher",
+  "last_name" : "Morales"
+},
+{
+  "id" : "8",
+  "username" : "lcarter",
+  "first_name" : "Lindsay",
+  "last_name" : "Carter"
+},
+{
+  "id" : "9",
+  "username" : "jadkins",
+  "first_name" : "Janice",
+  "last_name" : "Adkins"
+},
+{
+  "id" : "10",
+  "username" : "bmiller",
+  "first_name" : "Blanca",
+  "last_name" : "Miller"
+},
+{
+  "id" : "11",
+  "username" : "rhenderson",
+  "first_name" : "Ronald",
+  "last_name" : "Henderson"
+},
+{
+  "id" : "12",
+  "username" : "cgreene",
+  "first_name" : "Carlton",
+  "last_name" : "Greene"
+},
+{
+  "id" : "13",
+  "username" : "tstrickland",
+  "first_name" : "Tina",
+  "last_name" : "Strickland"
+},
+{
+  "id" : "14",
+  "username" : "phall",
+  "first_name" : "Patsy",
+  "last_name" : "Hall"
+},
+{
+  "id" : "15",
+  "username" : "wlynch",
+  "first_name" : "Willie",
+  "last_name" : "Lynch"
+},
+{
+  "id" : "16",
+  "username" : "greeves",
+  "first_name" : "Grady",
+  "last_name" : "Reeves"
+},
+{
+  "id" : "17",
+  "username" : "opatrick",
+  "first_name" : "Owen",
+  "last_name" : "Patrick"
+},
+{
+  "id" : "18",
+  "username" : "ebass",
+  "first_name" : "Emilio",
+  "last_name" : "Bass"
+},
+{
+  "id" : "19",
+  "username" : "kwagner",
+  "first_name" : "Kristen",
+  "last_name" : "Wagner"
+},
+{
+  "id" : "20",
+  "username" : "tleonard",
+  "first_name" : "Tasha",
+  "last_name" : "Leonard"
+}]

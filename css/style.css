@@ -1,0 +1,152 @@
+body {
+  color: #363636;
+  font-family: 'Karla', sans-serif;
+}
+
+textarea {
+  resize: none;
+  width: 100%;
+  height: 100%;
+  overflow-x: none;
+  overflow-y: scroll;
+  word-wrap:break-word;
+  border: 0;
+  outline: 0;
+}
+
+#loginBox, #msgBox {
+  width: 650px;
+  margin: 0 auto;
+  padding: 0 0 10px 0;
+  background: #f5f5f5;
+  overflow: hidden;
+}
+
+#loginBox h2, #msgBox h2 {
+  background: #354b59;
+  color: #fff;
+  text-align: center;
+  margin: 0 0 5px 0;
+  padding: 5px;
+}
+
+#loginFld, #msgInt {
+  width: 630px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  line-height: 20px;
+  overflow: hidden;
+  position: relative;
+}
+
+#loginFld {
+  height: 30px;
+}
+
+#msgInt {
+  height: 400px;
+}
+
+#loginFld * {
+  display: inline-block;
+  vertical-align: middle;
+  position: absolute;
+}
+
+#msgInt > ul {
+  list-style: none;
+  width: 606px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#msgInt > ul > li {
+  float: left;
+}
+
+#msgInt > ul > li > a {
+  padding: 10px 15px 10px;
+  color: #354b59;
+  float: left;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #ddd;
+}
+
+#msgInt > ul > li > a > img {
+  float: left;
+}
+
+#msgInt > ul > li > a#usersBtn {
+  background-color: #e5e5e5;
+}
+
+#msgInt > ul > li > a:hover, #msgInt > ul > li > a.selected, #msgInt > ul > li > a#usersBtn:hover {
+  background-color: #4b5d68;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #000;
+}
+
+#msgContent {
+  width: 606px;
+  height: 346px; 
+  padding: 2px 0 0 0;
+  margin: 50px auto 0 auto;
+  background: #fff;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+#msgContent > ul {
+  width: 606px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#msgContent > ul > li {
+  margin: 0 2px 2px 2px;
+  padding: 5px;
+  height: 57px;
+  text-align: left;
+  background: #f5f5f5;
+  position: relative;
+  cursor: pointer;
+}
+
+#msgContent > ul > li:hover {
+  background: #e5e5e5;
+}
+
+#msgContent > ul > li > div {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+#username {
+  width: 420px;
+  height: 30px;
+  padding: 0 5px;
+  margin: 0;
+  border: 0;
+  outline: 0;
+  left: 0;
+}
+
+#loginBtn {
+  border-width: 1px;
+  border-color: #cc7342;
+  background: #f18d35;
+  background: -webkit-linear-gradient(top,#f8b248 0,#f18d35 100%);
+  background: linear-gradient(to bottom,#f8b248 0,#f18d35 100%);
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+
+  width: 50px;
+  height: 30px;
+  margin: 0;
+  padding: 5px;
+  right: 0;
+}

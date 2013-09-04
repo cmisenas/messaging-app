@@ -1,0 +1,15 @@
+[{
+ "id" : "1",
+ "type" : "user:message",
+ "title" : "Hello There!",
+ "date" : "Sep 04 2013",
+ "time" : "13:18:30",
+ "class" : "Algorithms",
+ "sender" : {
+  "id" : "2",
+  "username" : "mfloyd",
+  "first_name" : "Marlon",
+  "last_name" : "Floyd"
+ },
+ "body" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada, lacus vel scelerisque suscipit, mauris lorem eleifend felis, et cursus sem nibh vel turpis. Integer a bibendum augue, interdum adipiscing sem. Maecenas eget hendrerit erat, sed varius purus. Donec pretium dapibus vestibulum. Nam id arcu et libero porttitor sollicitudin quis sed enim. Sed non diam dictum, sodales leo vel, placerat neque. Cras quis turpis libero. Phasellus at nisi et augue tristique commodo. Etiam id eros a enim elementum placerat non rutrum risus."
+}]

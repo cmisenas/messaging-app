@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<!--
+  This messaging application is implemented in vanilla JS both server and client side.
+-->
+
+<html>
+
+  <head>
+    <title>Welcome!</title>
+    <link href='//fonts.googleapis.com/css?family=Karla:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+  </head>
+
+  <body>
+    <noscript>You must have JavaScript enabled to view this site.</noscript>
+    
+    <!--
+    All application contents will be
+    generated in the content div
+    through Ajax and socket.io events
+    for speed & portability.
+    -->
+    <div id="content"></div>
+
+    <script src="js/jquery.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+    <script src="js/msg.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+
+</html>
