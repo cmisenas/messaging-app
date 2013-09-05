@@ -17,7 +17,9 @@ Populate.prototype.populateUsers = function() {
     } else {
       var usersArr = JSON.parse(data);
       for (var i = 0; i < usersArr.length; i++) {
-        self.db.hmset('users:id:' + usersArr[i].username + ':uname:' + usersArr[i].username, JSON.stringify(usersArr[i]));
+        self.db.hmset('users:id:' + usersArr[i].id + ':uname:' + usersArr[i].username, usersArr[i], function(err, data) {
+          console.log(err, data);
+        });
       }
     }
   });
@@ -31,7 +33,9 @@ Populate.prototype.populateMessages = function() {
     } else {
       var msgsArr = JSON.parse(data);
       for (var i = 0; i < msgsArr.length; i++) {
-        self.db.hmset('messages:id:' + msgsArr[i].id, JSON.stringify(msgsArr[i]));
+        self.db.hmset('messages:id:' + msgsArr[i].id, msgsArr[i], function(err, data) {
+          console.log(err, data);
+        });
       }
     }
   });
@@ -45,7 +49,9 @@ Populate.prototype.populateAnnouns = function() {
     } else {
       var announsArr = JSON.parse(data);
       for (var i = 0; i < announsArr.length; i++) {
-        self.db.hmset('announs:id:' + announsArr[i].id, JSON.stringify(announsArr[i]));
+        self.db.hmset('announs:id:' + announsArr[i].id, announsArr[i], function(err, data) {
+          console.log(err, data);
+        });
       }
     }
   });
@@ -59,7 +65,9 @@ Populate.prototype.populateNotifs = function() {
     } else {
       var notifsArr = JSON.parse(data);
       for (var i = 0; i < notifsArr.length; i++) {
-        self.db.hmset('notifs:id:' + notifsArr[i].id, JSON.stringify(notifsArr[i]));
+        self.db.hmset('notifs:id:' + notifsArr[i].id, notifsArr[i], function(err, data) {
+          console.log(err, data);
+        });
       }
     }
   });
