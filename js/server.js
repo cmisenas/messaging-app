@@ -35,8 +35,8 @@ function init() {
   var store = require('redis');
   socket = initSocketIO(startServer());
   setEventHandlers(socket);
-  client = store.createClient(6379, nodejitsudb551450671.redis.irstack.com);
-  client.auth(nodejitsudb551450671.redis.irstack.com:f327cfe980c971946e80b8e975fbebb4, function(err) {
+  client = store.createClient(6379, 'nodejitsudb551450671.redis.irstack.com');
+  client.auth('nodejitsudb551450671.redis.irstack.com:f327cfe980c971946e80b8e975fbebb4', function(err) {
     console.log(err);
   });
   storage = new Storage(client);
