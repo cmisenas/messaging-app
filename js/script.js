@@ -49,13 +49,14 @@
   }
 
   function loginUser() {
-    var username = $("#username").val().replace(/^\s+|\s+$/g, '');
-    if (!username.length) {
-      alert('You must enter a username!');
+    var username = $("#username").val().replace(/^\s+|\s+$/g, ''),
+        password = $("#password").val().replace(/^\s+|\s+$/g, '');
+    if (!username.length || !password.length) {
+      alert('You must enter a username and password!');
       return;
     }
 
-    socket.emit('login', {username: username});
+    socket.emit('login', {username: username, password: password});
   }
 
   function init() {
