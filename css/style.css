@@ -14,6 +14,15 @@ textarea {
   outline: 0;
 }
 
+a, label {
+  color: #1192bf;
+  text-decoration: none;
+}
+
+a:hover, label:hover {
+  text-decoration: underline;
+}
+
 #loginBox, #msgBox {
   width: 650px;
   margin: 0 auto;
@@ -88,7 +97,7 @@ textarea {
   text-shadow: 0 1px 0 #000;
 }
 
-#msgBar {
+#navBar {
   width: 590px; 
   height: 14px;
   line-height: 14px;
@@ -100,9 +109,17 @@ textarea {
   position: relative;
 }
 
-#msgBar > #checkAll {
+#navBar > #checkAll {
   float: right;
   margin: 0 5px;
+}
+
+#navBar > * {
+  display: none;
+}
+
+#navBar > div.selected {
+  display: block;
 }
 
 #msgContent {

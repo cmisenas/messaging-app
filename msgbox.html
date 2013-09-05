@@ -8,7 +8,20 @@
       <li><a href="#" id="newBtn">New Message</a></li>
       <li><a href="#" id="usersBtn"><img src="css/person_icon.svg"/></a></li>
     </ul>
-    <div id="msgBar"><label for="checkAll">Check All</label><input id="checkAll" type="checkbox"/></div>
+    <div id="navBar">
+      <div id="readMsgBar" class="selected">
+        <a href="#" id="deleteBtn">Delete</a>
+        <a href="#" id="markRead">Mark as Read</a>
+        <label for="allMsgs">Check All</label> <input id="allMsgs" class="checkAll" type="checkbox"/>
+      </div>
+      <div id="newMsgBar">
+        <a href="#" id="sendMsg">Send Message</a>
+      </div>
+      <div id="msgUsrBar">
+        <a href="#" id="writeMsg">Write Message</a>
+        <label for="allUsers">Check All</label> <input id="allUsers" class="checkAll" type="checkbox"/>
+      </div>
+    </div>
     <div id="msgContent">
     </div>
   </div>
