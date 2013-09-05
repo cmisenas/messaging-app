@@ -46,31 +46,21 @@ function setEventHandlers(socket) {
 	  client.on('login', function(data) {
       onLoginUser(this, data);
     });
-
 	  client.on('get:notifs', function(data) {
       onGetNotifs(this, data);
     });
-
 	  client.on('get:msgs', function(data) {
       onGetMessages(this, data);
     });
-
 	  client.on('get:announs', function(data) {
       onGetAnnouncements(this, data);
     });
-
 	  client.on('get:users', function(data) {
       onGetUsers(this, data);
     });
-
-	  client.on('new:message', function(data) {
-      onNewMessage(this, data);
-    });
-
 	  client.on('send:message', function(data) {
       onSendMessage(this, data);
     });
-
 	  client.on('populate', function(data) {
       onPopulate();
     });
@@ -106,9 +96,7 @@ function handleGet(pathname, res) {
 /**
  * This is a quick, simple function to register the user on the redis database
  * TODO:
- * data sanitization
- * check for user collision
- * better way to store in database (I chose not to do this since username and uid will be coming from the site database already)
+ * data sanitization and checking
  */
 function onLoginUser(client, data) {
   if (users.indexOf(data.username) === -1) {
@@ -122,7 +110,9 @@ function onLoginUser(client, data) {
 function onGetNotifs(client, data) {
   if (users.indexOf(data.username)) {
     fs.readFile('notifs.json', 'utf-8', function(err, data) {
-      //only send the 10 recent notifications
+      //send test data from json file
+      //when implemented flatten object with JSON.stringify
+      //and parse string to JSON when used
       var notifs = JSON.parse(data);
       client.emit('show:notifs', {notifs: notifs});
     });
@@ -134,7 +124,6 @@ function onGetNotifs(client, data) {
 function onGetMessages(client, data) {
   if (users.indexOf(data.username)) {
     fs.readFile('inbox.json', 'utf-8', function(err, data) {
-      //only send the 10 recent messages
       var inbox = JSON.parse(data);
       client.emit('show:msgs', {msgs: inbox});
     });
@@ -146,7 +135,6 @@ function onGetMessages(client, data) {
 function onGetAnnouncements(client, data) {
   if (users.indexOf(data.username)) {
     fs.readFile('announs.json', 'utf-8', function(err, data) {
-      //only send the 10 recent messages
       var announs = JSON.parse(data);
       client.emit('show:announs', {announs: announs});
     });
@@ -158,7 +146,6 @@ function onGetAnnouncements(client, data) {
 function onGetUsers(client, data) {
   if (users.indexOf(data.username)) {
     fs.readFile('users.json', 'utf-8', function(err, data) {
-      //only send the 10 recent messages
       var users = JSON.parse(data);
       client.emit('show:users', {users: users});
     });

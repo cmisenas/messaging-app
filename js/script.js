@@ -1,7 +1,7 @@
 ;(function(exports) {
 
   var userCookie = splitCookie(document.cookie),
-      contentDiv = document.getElementById("content"),
+      contentDiv = $("#content"),
       msgContent, socket;
   
   init();
@@ -40,16 +40,16 @@
     $.ajax({url: "login.html",
             type: "GET",
             success: function(res){
-              contentDiv.innerHTML = res;
-              document.getElementById("loginBtn").onclick = function() {
+              contentDiv.html(res);
+              $("#loginBtn").on('click', function() {
                 loginUser();
-              }
+              });
             }
     });
   }
 
   function loginUser() {
-    var username = document.getElementById("username").value.replace(/^\s+|\s+$/g, '');
+    var username = $("#username").val().replace(/^\s+|\s+$/g, '');
     if (!username.length) {
       alert('You must enter a username!');
       return;
@@ -66,9 +66,6 @@
   function setEventHandlers() {
     socket.on("error", onError);
     socket.on("loggedin", onLoggedIn);
-    socket.on("new:message", onNewMessage);
-    socket.on("new:notifs", onNewNotifs);
-    socket.on("new:announs", onNewAnnouns);
     socket.on("show:msgs", onShowMessages);
     socket.on("show:notifs", onShowNotifs);
     socket.on("show:announs", onShowAnnouns);
@@ -85,90 +82,73 @@
     showMsgBox();
   }
 
-  function onNewMessage(data) {
-  }
-
-  function onNewNotifs(data) {
-  }
-
-  function onNewAnnouns(data) {
-  }
-
   function onShowMessages(data) {
-    var msgArr = [];
+    var msgArr = [],
+        indivMsg = [];
     msgArr.push('<ul id="msg_list">');
     for (var i = 0; i < data.msgs.length; i++) {
-      msgArr.push('<li data-msg-id="' + data.msgs[i].id + '">' + data.msgs[i].class + ' - ' + data.msgs[i].title + '<br/>' + data.msgs[i].sender.first_name + ' ' + data.msgs[i].sender.last_name + '<br/>' + data.msgs[i].time + ' ' + data.msgs[i].date + '</li>');
+      indivMsg.push('<li data-msg-id="' + data.msgs[i].id + '">' + data.msgs[i].class + ' - ' + data.msgs[i].title);
+      indivMsg.push('<br/>' + data.msgs[i].sender.first_name + ' ' + data.msgs[i].sender.last_name + '<br/>' + data.msgs[i].time + ' ' + data.msgs[i].date);
+      indivMsg.push('<div class="listOptions"><ul><li>' + ['Mark as read', 'Delete', 'Reply', 'Forward'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+      msgArr.push(indivMsg.join(''));
+      indivMsg.length = 0;
     }
     msgArr.push('</ul>');
-    msgContent.innerHTML = msgArr.join('\n');
-    $('#msg_list > li').hover(function() {
-      /**
-       * Mark as read
-       * Delete
-       * Reply
-       * Forward
-       */
-    });
+    msgContent.html(msgArr.join('\n'));
   }
 
   function onShowNotifs(data) {
-    var notifArr = [];
+    var notifArr = [],
+        indivNotif = [];
     notifArr.push('<ul id="notif_list">');
     for (var i = 0; i < data.notifs.length; i++) {
-      notifArr.push('<li data-notifs-id="' + data.notifs[i].id + '">' + data.notifs[i].class + '<br/>' + data.notifs[i].title + '<br/>' + data.notifs[i].time + ' ' + data.notifs[i].date + '</li>');
+      indivNotif.push('<li data-notifs-id="' + data.notifs[i].id + '">' + data.notifs[i].class);
+      indivNotif.push('<br/>' + data.notifs[i].title + '<br/>' + data.notifs[i].time + ' ' + data.notifs[i].date);
+      indivNotif.push('<div class="listOptions"><ul><li>' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+      notifArr.push(indivNotif.join(''));
+      indivNotif.length = 0;
     }
     notifArr.push('</ul>');
-    msgContent.innerHTML = notifArr.join('\n');
-    $('#notif_list > li').hover(function() {
-      /**
-       * Mark as read
-       * Delete
-       * Comment
-       * Forward
-       */
-    });
+    msgContent.html(notifArr.join('\n'));
   }
 
   function onShowAnnouns(data) {
-    var announsArr = [];
+    var announsArr = [],
+        indivAnnoun = [];
     announsArr.push('<ul id="announs_list">');
     for (var i = 0; i < data.announs.length; i++) {
-      announsArr.push('<li data-announs-id="' + data.announs[i].id + '">' + data.announs[i].class + '<br/>' + data.announs[i].title + '<br/>' + data.announs[i].time + ' ' + data.announs[i].date + '</li>');
+      indivAnnoun.push('<li data-announs-id="' + data.announs[i].id + '">' + data.announs[i].class + '<br/>' + data.announs[i].title);
+      indivAnnoun.push('<br/>' + data.announs[i].time + ' ' + data.announs[i].date);
+      indivAnnoun.push('<div class="listOptions"><ul><li>' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+      announsArr.push(indivAnnoun.join(''));
+      indivAnnoun.length = 0;
     }
     announsArr.push('</ul>');
-    msgContent.innerHTML = announsArr.join('\n');
-    $('#announs_list > li').hover(function() {
-      /**
-       * Mark as read
-       * Delete
-       * Comment
-       * Forward
-       */
-    });
+    msgContent.html(announsArr.join('\n'));
+    
   }
 
   function onShowUsers(data) {
-    var announsArr = [];
-    announsArr.push('<ul id="users_list">');
+    var usersArr = [],
+        indivUser = [];
+    usersArr.push('<ul id="users_list">');
+    console.log(data);
     for (var i = 0; i < data.users.length; i++) {
-      announsArr.push('<li data-users-id="' + data.users[i].id + '">' + data.users[i].first_name + ' ' + data.users[i].last_name + '</li>');
+      indivUser.push('<li data-users-id="' + data.users[i].id + '">');
+      indivUser.push(data.users[i].first_name + ' ' + data.users[i].last_name);
+      indivUser.push('<div class="listOptions"><ul><li>' + ['Send Message', 'View Profile'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+      usersArr.push(indivUser.join(''));
+      indivUser.length = 0;
     }
-    announsArr.push('</ul>');
-    msgContent.innerHTML = announsArr.join('\n');
-    $('#users_list > li').hover(function() {
-      /**
-       * Send message
-       * View profile
-       */
-    });
+    usersArr.push('</ul>');
+    msgContent.html(usersArr.join('\n'));
   }
 
   function showMsgBox() {
     $.ajax({url: "msgbox.html",
             type: "GET",
             success: function(res) {
-              contentDiv.innerHTML = res;
+              contentDiv.html(res);
               setButtonHandlers();
               getData('notifs');
             }
@@ -176,45 +156,45 @@
   }
 
   function setButtonHandlers() {
-    msgContent = document.getElementById('msgContent');
+    msgContent = $('#msgContent');
 
     var buttons = {
-      notifs : document.getElementById('notifsBtn'),
-      announs : document.getElementById('announsBtn'),
-      inbox : document.getElementById('inboxBtn'),
-      newMsg : document.getElementById('newBtn'),
-      users : document.getElementById('usersBtn')
+      notifs : $('#notifsBtn'),
+      announs : $('#announsBtn'),
+      msgs : $('#msgsBtn'),
+      newMsg : $('#newBtn'),
+      users : $('#usersBtn')
     };
 
-    buttons.notifs.onclick = function() {
-      selectBtn(buttons, 'notifs');
-      getData('notifs');
-    };
-    buttons.announs.onclick = function() {
-      selectBtn(buttons, 'announs');
-      getData('announs');
-    };
-    buttons.inbox.onclick = function() {
-      selectBtn(buttons, 'inbox');
-      getData('msgs');
-    };
-    buttons.newMsg.onclick = function() {
-      selectBtn(buttons, 'newMsg');
-      showNewMessage(msgContent);
-    };
-    buttons.users.onclick = function() {
-      selectBtn(buttons, 'users');
-      getData('users');
-    };
+    /**
+     * The infamous JavaScript Closure Loop Problem
+     * Instead of looping hardcoding each of the function for the buttons (which have the same functionalities),
+     * simply store them in array and bind correct function to element
+     */
+    for (var btn in buttons) {
+      if (buttons.hasOwnProperty(btn)) {
+        buttons[btn].on('click', (function(btnName) {
+          return function() {
+            selectBtn(buttons, btnName);
+            if (btnName === 'newMsg') {
+              showNewMessage(msgContent);
+            } else {
+              getData(btnName);
+            }
+          };
+        }(btn)));
+      }
+    }
+
   }
 
   function selectBtn(btnArr, selectedBtn) {
     for (var btn in btnArr) {
       if (btnArr.hasOwnProperty(btn)) {
         if (btn === selectedBtn) {
-          btnArr[btn].className = 'selected';
+          btnArr[btn].addClass('selected');
         } else {
-          btnArr[btn].className = '';
+          btnArr[btn].removeClass('selected');
         }
       }
     }
@@ -229,7 +209,7 @@
   }
 
   function showNewMessage(container) {
-    container.innerHTML = '<textarea></textarea>';
+    container.html('<textarea></textarea>');
   }
 
   /**
