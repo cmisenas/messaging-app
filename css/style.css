@@ -88,11 +88,28 @@ textarea {
   text-shadow: 0 1px 0 #000;
 }
 
+#msgBar {
+  width: 590px; 
+  height: 14px;
+  line-height: 14px;
+  margin: 50px auto 0 auto;
+  padding: 8px;
+  text-align: right;
+  background: #e5e5e5;
+  overflow: hidden;
+  position: relative;
+}
+
+#msgBar > #checkAll {
+  float: right;
+  margin: 0 5px;
+}
+
 #msgContent {
   width: 606px;
   height: 346px; 
   padding: 2px 0 0 0;
-  margin: 50px auto 0 auto;
+  margin: 5px auto 0 auto;
   background: #fff;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -115,24 +132,53 @@ textarea {
   cursor: pointer;
 }
 
+#msgContent > ul > li > input[type="checkbox"]{
+  position: absolute;
+  top: 21px;
+  right: 10px;
+}
+
+#msgContent > ul > li > div.listOptions {
+  position: absolute;
+  display: none;
+  top: 5px;
+  right: 30px;
+}
+
 #msgContent > ul > li:hover {
   background: #e5e5e5;
 }
 
-#msgContent > ul > li > div {
-  position: absolute;
-  top: 0;
-  right: 0;
+#msgContent > ul > li:hover > div.listOptions {
+  display: block;
 }
 
-#username {
-  width: 420px;
+#msgContent > ul > li > div.listOptions > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#msgContent > ul > li > div.listOptions > ul > li {
+  font-size: 12px;
+  line-height: 12px;
+}
+
+#username, #password {
+  width: 270px;
   height: 30px;
   padding: 0 5px;
   margin: 0;
   border: 0;
   outline: 0;
+}
+
+#username {
   left: 0;
+}
+
+#password {
+  left: 290px;
 }
 
 #loginBtn {
