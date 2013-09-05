@@ -5,10 +5,9 @@ var http = require('http'),
     qs = require('querystring'),
     Populate = require('./populate.js'),
     Storage = require('./storage.js').Storage,
-    socket, users = [];
+    socket, users = [], storage, client;
 
-socket = initSocketIO(startServer());
-setEventHandlers(socket);
+init();
 
 function serveStaticFile(filename, type, res) {
   fs.readFile(filename, function (err, data) {
@@ -30,6 +29,14 @@ function serveErrorPage(res) {
       res.end(data2);
     }
   });
+}
+
+function init() {
+  var store = require('redis');
+  socket = initSocketIO(startServer());
+  setEventHandlers(socket);
+  client = store.createClient();
+  storage = new Storage(client);
 }
 
 function initSocketIO(app) {
@@ -99,12 +106,18 @@ function handleGet(pathname, res) {
  * data sanitization and checking
  */
 function onLoginUser(client, data) {
-  if (users.indexOf(data.username) === -1) {
-    var id = users.push(data.username);
-    client.emit('loggedin', {id: id, uname: data.username});
-  } else {
-    sendError('That username is already taken!');
-  }
+  storage.getUser({uname: data.username}, function(result) {
+    if (result) {
+      //password is currently trivial first and last name combination
+      if (result.first_name + result.last_name === data.password) {
+        client.emit('loggedin', {id: result.id, uname: data.username});
+      } else {
+        sendError('That username and password combination is incorrect!');
+      }
+    } else {
+      sendError('That username does not exist!');
+    }
+  });
 }
 
 function onGetNotifs(client, data) {
@@ -183,7 +196,7 @@ function sendError(msg) {
 }
 
 function onPopulate() {
-  var data = new Populate();
+  var data = new Populate(client);
   data.populateUsers();
   data.populateMessages();
   data.populateAnnouns();
