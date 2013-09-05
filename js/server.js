@@ -54,16 +54,16 @@ function setEventHandlers(socket) {
       onLoginUser(this, data);
     });
 	  client.on('get:notifs', function(data) {
-      onGetNotifs(this, data);
+      onGetData(this, 'notifs', data);
     });
 	  client.on('get:msgs', function(data) {
-      onGetMessages(this, data);
+      onGetData(this, 'msgs', data);
     });
 	  client.on('get:announs', function(data) {
-      onGetAnnouncements(this, data);
+      onGetData(this, 'announs', data);
     });
 	  client.on('get:users', function(data) {
-      onGetUsers(this, data);
+      onGetData(this, 'users', data);
     });
 	  client.on('send:message', function(data) {
       onSendMessage(this, data);
@@ -120,75 +120,26 @@ function onLoginUser(client, data) {
   });
 }
 
-function onGetNotifs(client, data) {
-  if (users.indexOf(data.username)) {
-    fs.readFile('notifs.json', 'utf-8', function(err, data) {
-      //send test data from json file
-      //when implemented flatten object with JSON.stringify
-      //and parse string to JSON when used
-      var notifs = JSON.parse(data);
-      client.emit('show:notifs', {notifs: notifs});
-    });
-  } else {
-    sendError('That user does not exist!');
-  }
-}
-
-function onGetMessages(client, data) {
-  if (users.indexOf(data.username)) {
-    fs.readFile('inbox.json', 'utf-8', function(err, data) {
-      var inbox = JSON.parse(data);
-      client.emit('show:msgs', {msgs: inbox});
-    });
-  } else {
-    sendError('That user does not exist!');
-  }
-}
-
-function onGetAnnouncements(client, data) {
-  if (users.indexOf(data.username)) {
-    fs.readFile('announs.json', 'utf-8', function(err, data) {
-      var announs = JSON.parse(data);
-      client.emit('show:announs', {announs: announs});
-    });
-  } else {
-    sendError('That user does not exist!');
-  }
-}
-
-function onGetUsers(client, data) {
-  if (users.indexOf(data.username)) {
-    fs.readFile('users.json', 'utf-8', function(err, data) {
-      var users = JSON.parse(data);
-      client.emit('show:users', {users: users});
-    });
-  } else {
-    sendError('That user does not exist!');
-  }
+function onGetData(client, type, data) {
+  fs.readFile(type + '.json', 'utf-8', function(err, result) {
+    //send test data from json file
+    //when implemented flatten object with JSON.stringify
+    //and parse string to JSON when used
+    var rec = JSON.parse(result);
+    client.emit('show:' + type, {rec: rec});
+  });
 }
 
 function onAddUser(client, data) {
-  if (users.indexOf(data.username)) {
-    console.log(data, 'add user');
-  } else {
-    sendError('That user does not exist!');
-  }
+  console.log(data, 'add user');
 }
 
 function onNewMessage(client, data) {
-  if (users.indexOf(data.username)) {
-    console.log(data, 'new message');
-  } else {
-    sendError('That user does not exist!');
-  }
+  console.log(data, 'new message');
 }
 
 function onSendMessage(client, data) {
-  if (users.indexOf(data.username)) {
-    console.log(data, 'send message');
-  } else {
-    sendError('That user does not exist!');
-  }
+  console.log(data, 'send message');
 }
 
 function sendError(msg) {
