@@ -3,7 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "socket.io" : "0.9",
-    "redis" : "0.8.4"
+    "socket.io": "0.9",
+    "redis": "0.8.4"
+  },
+  "subdomain": "msg-app",
+  "scripts": {
+    "start": "js/server.js"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }
