@@ -33,7 +33,7 @@ Populate.prototype.populateMessages = function() {
     } else {
       var msgsArr = JSON.parse(data);
       for (var i = 0; i < msgsArr.length; i++) {
-        self.db.hmset('messages:id:' + msgsArr[i].id, msgsArr[i], function(err, data) {
+        self.db.hmset('msgs:id:' + msgsArr[i].id, msgsArr[i], function(err, data) {
           console.log(err, data);
         });
       }
