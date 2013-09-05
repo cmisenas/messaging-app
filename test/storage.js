@@ -1,15 +1,29 @@
 var assert = require("assert"),
+    redis = require("redis"),
+    Populate = require('../js/populate.js'),
     Storage = require("../js/storage.js").Storage,
-    storage; 
+    storage, client, data;
 
 describe("Storage", function(){
+
+  setup(function() {
+    client = redis.createClient();
+    data = new Populate(client);
+  });
+
+  beforeEach(function() {
+    data.populateUsers();
+    data.populateMessages();
+    data.populateAnnouns();
+    data.populateNotifs();
+  });
 
   afterEach(function() {
     storage.client.flushdb();
   });
 
   it("should be able to create db", function() {
-    storage = new Storage('redis');
+    storage = new Storage(client);
     assert(storage);
   });
 
@@ -19,36 +33,15 @@ describe("Storage", function(){
     }, /No database passed!/);
   });
 
-  it("should store user in current users and return user id", function(done) {
-    storage = new Storage('redis');
-    var user = {name: 'jdoe'};
-    storage.storeUser(user, function(result) {
-      assert.equal(result, 1);
+  it("should get user in current users and return user id", function(done) {
+    storage = new Storage(client);
+    var user = {uname: 'ischmidt'};
+    storage.getUser(user, function(result) {
+      assert.equal(result.id, 1);
+      assert.equal(result.first_name, 'Ian');
+      assert.equal(result.last_name, 'Schmidt');
       done();
     });
-  });
-
-  it("should return false when username is already in current users", function(done) {
-    storage = new Storage('redis');
-    var newUser = {name: 'jdoe'},
-        sameUser = {name: 'jdoe'};
-    storage.storeUser(newUser, function(result1) {
-      storage.storeUser(sameUser, function(result2) {
-        assert.equal(result2, false);
-        done();
-      });
-    });
-  });
-
-  it("should store message object and return id", function() {
-    storage = new Storage('redis');
-    var msgObj = {msg: 'Hello world!'};
-    storage.storeMessage(msgObj, function(result) {
-    });
-  });
-
-  it("should store sending messages with message id and recipients", function() {
-    storage = new Storage('redis');
   });
 
 });

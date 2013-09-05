@@ -10,13 +10,6 @@
       throw new Error('No database passed!');
     }
     this.client = client;
-    /**
-     * Because there are no primary ids automatically set and incremented upon adding of records in redis (nosql dbs),
-     * A key that maintains the number of users and messages is added and incremented when adding a new user or message.
-     */
-    this.client.on("error", function(err) {
-      console.log("Error: " + err);
-    });
   }
 
   Storage.prototype.getUser = function(user, fn) {
@@ -43,6 +36,17 @@
         fn(false);
       }
     });
+  }
+
+  Storage.prototype.getData = function(msgData, fn) {
+    if (typeof msgData === 'undefined' || ((typeof msgData.type === 'undefined' && typeof msgData.rtype === 'undefined') && typeof msgData.mid === 'undefined')) {
+      throw new Error('No message data provided!');
+    }
+
+    var that = this,
+        mid = msgData.mid || '*',
+        rtype = msgData.rtype || '*',
+        rid = msgData.rid || '*';
   }
   
   exports.Storage = Storage;
