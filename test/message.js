@@ -1,5 +1,5 @@
 var assert = require("assert"),
-    Message = require("../js/msg.js").Message;
+    Message = require("../js/message.js").Message;
 
 describe("Message", function() {
 
