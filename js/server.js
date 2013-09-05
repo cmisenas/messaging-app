@@ -75,7 +75,7 @@ function setEventHandlers(socket) {
 }
 
 function startServer() {
-  var PORT = 8000,
+  var PORT = 80,
       app;
 
   app = http.createServer(function(req, res) {
