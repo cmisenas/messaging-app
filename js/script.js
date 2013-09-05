@@ -87,10 +87,10 @@
     var msgArr = [],
         indivMsg = [];
     msgArr.push('<ul id="msg_list">');
-    for (var i = 0; i < data.msgs.length; i++) {
-      indivMsg.push('<li data-msg-id="' + data.msgs[i].id + '">' + data.msgs[i].class + ' - ' + data.msgs[i].title);
-      indivMsg.push('<br/>' + data.msgs[i].sender.first_name + ' ' + data.msgs[i].sender.last_name + '<br/>' + data.msgs[i].time + ' ' + data.msgs[i].date);
-      indivMsg.push('<div class="listOptions"><ul><li>' + ['Mark as read', 'Delete', 'Reply', 'Forward'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+    for (var i = 0; i < data.rec.length; i++) {
+      indivMsg.push('<li data-msg-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].class.id + '">' + data.rec[i].class.name + ' - ' + data.rec[i].title + '<br/>' + data.rec[i].sender.first_name);
+      indivMsg.push(' ' + data.rec[i].sender.last_name + '<br/>' + data.rec[i].time + ' ' + data.rec[i].date + '<div class="listOptions"><ul><li><a href="#">');
+      indivMsg.push(['Mark as read', 'Delete', 'Reply', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
       msgArr.push(indivMsg.join(''));
       indivMsg.length = 0;
     }
@@ -102,10 +102,10 @@
     var notifArr = [],
         indivNotif = [];
     notifArr.push('<ul id="notif_list">');
-    for (var i = 0; i < data.notifs.length; i++) {
-      indivNotif.push('<li data-notifs-id="' + data.notifs[i].id + '">' + data.notifs[i].class);
-      indivNotif.push('<br/>' + data.notifs[i].title + '<br/>' + data.notifs[i].time + ' ' + data.notifs[i].date);
-      indivNotif.push('<div class="listOptions"><ul><li>' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+    for (var i = 0; i < data.rec.length; i++) {
+      indivNotif.push('<li data-notifs-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].class.id + '">' + data.rec[i].class.name);
+      indivNotif.push('<br/>' + data.rec[i].title + '<br/>' + data.rec[i].time + ' ' + data.rec[i].date + '<div class="listOptions"><ul><li><a href="#">');
+      indivNotif.push(['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
       notifArr.push(indivNotif.join(''));
       indivNotif.length = 0;
     }
@@ -117,10 +117,10 @@
     var announsArr = [],
         indivAnnoun = [];
     announsArr.push('<ul id="announs_list">');
-    for (var i = 0; i < data.announs.length; i++) {
-      indivAnnoun.push('<li data-announs-id="' + data.announs[i].id + '">' + data.announs[i].class + '<br/>' + data.announs[i].title);
-      indivAnnoun.push('<br/>' + data.announs[i].time + ' ' + data.announs[i].date);
-      indivAnnoun.push('<div class="listOptions"><ul><li>' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+    for (var i = 0; i < data.rec.length; i++) {
+      indivAnnoun.push('<li data-announs-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].class.id + '">' + data.rec[i].class.name + '<br/>' + data.rec[i].title);
+      indivAnnoun.push('<br/>' + data.rec[i].time + ' ' + data.rec[i].date + '<div class="listOptions"><ul><li><a href="#">');
+      indivAnnoun.push(['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
       announsArr.push(indivAnnoun.join(''));
       indivAnnoun.length = 0;
     }
@@ -133,11 +133,9 @@
     var usersArr = [],
         indivUser = [];
     usersArr.push('<ul id="users_list">');
-    console.log(data);
-    for (var i = 0; i < data.users.length; i++) {
-      indivUser.push('<li data-users-id="' + data.users[i].id + '">');
-      indivUser.push(data.users[i].first_name + ' ' + data.users[i].last_name);
-      indivUser.push('<div class="listOptions"><ul><li>' + ['Send Message', 'View Profile'].join('</li><li>') + '</li></ul></div><input type="checkbox"/></li>');
+    for (var i = 0; i < data.rec.length; i++) {
+      indivUser.push('<li data-users-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].id + '">' + data.rec[i].first_name + ' ' + data.rec[i].last_name + '<div class="listOptions"><ul><li><a href="#">');
+      indivUser.push(['Send Message', 'View Profile'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
       usersArr.push(indivUser.join(''));
       indivUser.length = 0;
     }
@@ -165,7 +163,12 @@
       msgs : $('#msgsBtn'),
       newMsg : $('#newBtn'),
       users : $('#usersBtn')
-    };
+    },
+        bar = {
+      readMsg : $('#readMsgBar'),
+      newMsg : $('#newMsgBar'),
+      msgUsr : $('#msgUsrBar')
+    }
 
     /**
      * The infamous JavaScript Closure Loop Problem
@@ -176,10 +179,17 @@
       if (buttons.hasOwnProperty(btn)) {
         buttons[btn].on('click', (function(btnName) {
           return function() {
+            $('.checkAll').prop('checked', false);
             selectBtn(buttons, btnName);
             if (btnName === 'newMsg') {
+              selectBtn(bar, btnName);
               showNewMessage(msgContent);
             } else {
+              if (btnName === 'users') {
+                selectBtn(bar, 'msgUsr');
+              } else {
+                selectBtn(bar, 'readMsg');
+              }
               getData(btnName);
             }
           };
@@ -187,6 +197,14 @@
       }
     }
 
+    $('.checkAll').on('change', function() {
+      var self = this;
+      $('#msgContent').find('input[type="checkbox"]').each(function() {
+        $(this).prop('checked', self.checked);
+      });
+    });
+
+    console.log(document.getElementsByClassName('dropdown'));
   }
 
   function selectBtn(btnArr, selectedBtn) {
