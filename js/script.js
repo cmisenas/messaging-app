@@ -12,10 +12,6 @@
     showLogin();
   }
 
-  function init() {
-    socket = io.connect("http://localhost", {port: 8000, transports: ["websocket"]}); 
-  }
-
   function splitCookie (str) {
     if (str.replace(/^\s+|\s+$/g, '') === '') {
       return {length: 0};
@@ -60,7 +56,7 @@
   }
 
   function init() {
-    socket = io.connect("http://localhost", {port: 8000, transports: ["websocket"]});
+    socket = io.connect("http://localhost", {port: 80, transports: ["websocket"]});
     setEventHandlers();
   }
 
@@ -168,7 +164,7 @@
       readMsg : $('#readMsgBar'),
       newMsg : $('#newMsgBar'),
       msgUsr : $('#msgUsrBar')
-    }
+    };
 
     /**
      * The infamous JavaScript Closure Loop Problem
