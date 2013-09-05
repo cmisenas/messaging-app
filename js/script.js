@@ -56,7 +56,7 @@
   }
 
   function init() {
-    socket = io.connect("http://localhost", {port: 80, transports: ["websocket"]});
+    socket = io.connect("http://msg-app.jit.su", {port: 80, transports: ["websocket"]});
     setEventHandlers();
   }
 
