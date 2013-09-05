@@ -4,7 +4,10 @@
  "title" : "Hello There!",
  "date" : "Sep 04 2013",
  "time" : "18:23:19",
- "class" : "Algorithms",
+ "class" : {
+  "name" : "Algorithms",
+  "id" : "1"
+ },
  "sender" : {
   "id" : "2",
   "username" : "mfloyd",
@@ -19,7 +22,10 @@
  "title" : "What Should I Know?",
  "date" : "Sep 04 2013",
  "time" : "13:18:30",
- "class" : "Introduction to Artificial Intelligence",
+ "class" : {
+  "name" : "Introduction to Artificial Intelligence",
+  "id" : "2"
+ },
  "instructors" :
   ["Peter Norvig",
   "Sebastian Thrun"],
@@ -31,7 +37,10 @@
  "title" : "What Should I Know?",
  "date" : "Sep 03 2013",
  "time" : "12:32:20",
- "class" : "HTML5 Game Development",
+ "class" : {
+  "name" : "HTML5 Game Development",
+  "id" : "3"
+ },
  "instructors" :
   ["Colt McAnlis",
   "Peter Lubbers"],
@@ -43,7 +52,10 @@
  "title" : "What Should I Know?",
  "date" : "Sep 03 2013",
  "time" : "17:02:23",
- "class" : "Algorithms",
+ "class" : {
+  "name" : "Algorithms",
+  "id" : "1"
+ },
  "instructors" :
   ["Michael Littman"],
  "body" : "Mauris lacinia fermentum dolor a volutpat. Duis vestibulum est malesuada ipsum porttitor, nec porta nisi fringilla. Donec tincidunt nulla et dolor venenatis volutpat a a dolor. Donec luctus mattis nibh, eget tincidunt turpis. Fusce vulputate dapibus facilisis. Etiam dictum mattis semper. Nam et accumsan odio, sit amet iaculis lacus. Nulla posuere dolor sit amet tortor tincidunt auctor. Vestibulum accumsan iaculis purus, ut tincidunt nunc tincidunt sit amet. Nunc vitae tincidunt nibh. Sed ac turpis posuere neque accumsan tincidunt. Mauris vehicula, mi porttitor gravida molestie, neque nulla vestibulum massa, a ornare nisl eros nec sem. Cras hendrerit iaculis eros a accumsan. Morbi rhoncus neque nec blandit elementum."

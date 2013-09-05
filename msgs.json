@@ -4,7 +4,10 @@
  "title" : "Hello There!",
  "date" : "Sep 04 2013",
  "time" : "18:23:19",
- "class" : "Algorithms",
+ "class" : {
+  "name" : "Algorithms",
+  "id" : "1"
+ },
  "sender" : {
   "id" : "2",
   "username" : "mfloyd",
