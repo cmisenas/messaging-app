@@ -158,11 +158,40 @@
     });
 
     $('.dropdown').on('click', function() {
-      $(this).parent().parent().find('.filtersMenu').css('display', 'block');
+      var getClasses = [];
+      $('#msgContent > ul > li').each(function() {
+        var id = $(this).data(id).classId.replace(/^\s+|\s+$/g, ''),
+            name = $(this).find('.class_name').text();
+        if (!getClasses[id]) {
+          getClasses[id] = {name: name};
+        }
+      });
+      $(this).parent().parent().find('.filtersMenu').css('display', 'block').html(function() {
+        var classList = '';
+        for (var id in getClasses) {
+          classList += getClasses[id].name + '<input type="checkbox" class="filterClass" value="' + id + '"/>' + '<br/>';
+        }
+        return classList;
+      });
+
+      $('.filterClass').on('change', function() {
+        var filterVals = [];
+        $(this).parent().find('input.filterClass:checked').each(function() {
+          filterVals.push($(this).val());
+        });
+        $('#msgContent > ul > li').each(function() {
+          var id = $(this).data(id).classId.replace(/^\s+|\s+$/g, '');
+          if (filterVals.indexOf(id) > -1 || filterVals.length === 0) {
+            $(this).css('display', 'block');
+          } else {
+            $(this).css('display', 'none');
+          }
+        });
+      });
     });
 
     $('#msgInt > ul > li').on('mouseleave', function() {
-      $(this).parent().parent().find('.filtersMenu').css('display', 'none').html('HERE');
+      $(this).parent().parent().find('.filtersMenu').css('display', 'none');
     });
   }
 
@@ -196,13 +225,13 @@
 
   function successGet(data, type, listId) {
     if (type === "msgs") {
-      format = '<li data-msg-id="%s" data-class-id="%s">%s - %s<br/>%s %s<br/>%s %s<div class="listOptions"><ul><li><a href="#">' + ['Mark as read', 'Delete', 'Reply', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
+      format = '<li data-msg-id="%s" data-class-id="%s"><span class="class_name">%s</span> - %s<br/>%s %s<br/>%s %s<div class="listOptions"><ul><li><a href="#">' + ['Mark as read', 'Delete', 'Reply', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
       include = ['id', ['class', 'id'], ['class', 'name'], 'title', ['sender', 'first_name'], ['sender', 'last_name'], 'time', 'date'];
     } else if (type === "notifs") {
-      format = '<li data-notifs-id="%s" data-class-id="%s">%s<br/>%s<br/>%s %s<div class="listOptions"><ul><li><a href="#">' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
+      format = '<li data-notifs-id="%s" data-class-id="%s"><span class="class_name">%s</span><br/>%s<br/>%s %s<div class="listOptions"><ul><li><a href="#">' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
       include = ['id', ['class', 'id'], ['class', 'name'], 'title', 'time', 'date'];
     } else if (type === "announs") {
-      format = '<li data-announs-id="%s" data-class-id="%s">%s<br/>%s<br/>%s %s<div class="listOptions"><ul><li><a href="#">' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
+      format = '<li data-announs-id="%s" data-class-id="%s"><span class="class_name">%s</span><br/>%s<br/>%s %s<div class="listOptions"><ul><li><a href="#">' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
       include = ['id', ['class', 'id'], ['class', 'name'], 'title', 'time', 'date'];
     } else if (type === "users") {
       format = '<li data-users-id="%s">%s %s<div class="listOptions"><ul><li><a href="#">' + ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
