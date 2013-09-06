@@ -72,6 +72,26 @@ a:hover, label:hover {
 
 #msgInt > ul > li {
   float: left;
+  position: relative;
+}
+
+#msgInt > ul > li > div.filtersMenu {
+  position: absolute;
+  width: 200px;
+  min-height: 50px;
+  font-size: 10px;
+  padding: 5px;
+  background: #354b59;
+  left: 0;
+  top: 42px;
+  z-index: 9999;
+  display: none;
+  text-align: left;
+  color: #fff;
+}
+
+#msgInt > ul > li > div.filtersMenu > input[type="checkbox"] {
+  float: right;
 }
 
 #msgInt > ul > li > a {
@@ -109,9 +129,14 @@ a:hover, label:hover {
   position: relative;
 }
 
-#navBar > #checkAll {
+#recipient {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+}
+
+#navBar > .checkAll {
   float: right;
-  margin: 0 5px;
 }
 
 #navBar > * {

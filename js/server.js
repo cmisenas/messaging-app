@@ -56,18 +56,6 @@ function setEventHandlers(socket) {
 	  client.on('login', function(data) {
       onLoginUser(this, data);
     });
-	  client.on('get:notifs', function(data) {
-      onGetData(this, 'notifs', data);
-    });
-	  client.on('get:msgs', function(data) {
-      onGetData(this, 'msgs', data);
-    });
-	  client.on('get:announs', function(data) {
-      onGetData(this, 'announs', data);
-    });
-	  client.on('get:users', function(data) {
-      onGetData(this, 'users', data);
-    });
 	  client.on('send:message', function(data) {
       onSendMessage(this, data);
     });
@@ -93,6 +81,10 @@ function startServer() {
 function handleGet(pathname, res) {
   if (pathname === '/') {
     serveStaticFile('index.html', 'text/html', res);
+  } else if(/^\/get\//.test(pathname)) {
+    console.log('YO');
+    var data = pathname.substring(pathname.indexOf('/', 1) + 1, pathname.indexOf('?') && pathname.length);
+    onGetData(res, data);
   } else {
     var type = pathname.indexOf('.js') > -1 ? 'text/javascript' :
                pathname.indexOf('.html') > -1 ? 'text/html' :
@@ -123,18 +115,15 @@ function onLoginUser(client, data) {
   });
 }
 
-function onGetData(client, type, data) {
+function onGetData(res, type) {
   fs.readFile(type + '.json', 'utf-8', function(err, result) {
     //send test data from json file
     //when implemented flatten object with JSON.stringify
     //and parse string to JSON when used
-    var rec = JSON.parse(result);
-    client.emit('show:' + type, {rec: rec});
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    console.log(err, result);
+    res.end(result);
   });
-}
-
-function onAddUser(client, data) {
-  console.log(data, 'add user');
 }
 
 function onNewMessage(client, data) {
@@ -154,5 +143,4 @@ function onPopulate() {
   data.populateUsers();
   data.populateMessages();
   data.populateAnnouns();
-  data.populateNotifs();
 }

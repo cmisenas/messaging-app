@@ -17,21 +17,16 @@
       return {length: 0};
     }
     var strArr = str.split("; "),
-        result = {},
-        len = 0,
+        result = {length: 0},
         i, cur;
     for (i = 0; i < strArr.length; i++) {
       cur = strArr[i].split("=");
       result[cur[0]] = cur[1];
-      len++;
+      result.length++;
     }
-    result.length = len;
     return result;
   }
 
-  /**
-   * login page
-   */
   function showLogin(uname) {
     $.ajax({url: "login.html",
             type: "GET",
@@ -63,10 +58,14 @@
   function setEventHandlers() {
     socket.on("error", onError);
     socket.on("loggedin", onLoggedIn);
-    socket.on("show:msgs", onShowMessages);
-    socket.on("show:notifs", onShowNotifs);
-    socket.on("show:announs", onShowAnnouns);
-    socket.on("show:users", onShowUsers);
+    socket.on("new:msgs", onNewMsgs);
+    socket.on("new:announs", onNewAnnouns);
+  }
+
+  function onNewMsgs(data) {
+  }
+
+  function onNewAnnouns(data) {
   }
 
   function onError(data) {
@@ -79,64 +78,20 @@
     showMsgBox();
   }
 
-  function onShowMessages(data) {
-    var msgArr = [],
-        indivMsg = [];
-    msgArr.push('<ul id="msg_list">');
+  function onShowData(format, include, data, id) {
+    var dataArr = [],
+        indivData = [],
+        splitFormat = format.split('%s');
+    dataArr.push('<ul id="' + id + '">');
     for (var i = 0; i < data.rec.length; i++) {
-      indivMsg.push('<li data-msg-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].class.id + '">' + data.rec[i].class.name + ' - ' + data.rec[i].title + '<br/>' + data.rec[i].sender.first_name);
-      indivMsg.push(' ' + data.rec[i].sender.last_name + '<br/>' + data.rec[i].time + ' ' + data.rec[i].date + '<div class="listOptions"><ul><li><a href="#">');
-      indivMsg.push(['Mark as read', 'Delete', 'Reply', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
-      msgArr.push(indivMsg.join(''));
-      indivMsg.length = 0;
+      for (var j = 0; j < include.length; j++) {
+        dataArr.push(splitFormat[j]);
+        dataArr.push(typeof include[j] === 'string' ? data.rec[i][include[j]] : data.rec[i][include[j][0]][include[j][1]]);
+      }
+      dataArr.push(splitFormat[splitFormat.length - 1]);
     }
-    msgArr.push('</ul>');
-    msgContent.html(msgArr.join('\n'));
-  }
-
-  function onShowNotifs(data) {
-    var notifArr = [],
-        indivNotif = [];
-    notifArr.push('<ul id="notif_list">');
-    for (var i = 0; i < data.rec.length; i++) {
-      indivNotif.push('<li data-notifs-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].class.id + '">' + data.rec[i].class.name);
-      indivNotif.push('<br/>' + data.rec[i].title + '<br/>' + data.rec[i].time + ' ' + data.rec[i].date + '<div class="listOptions"><ul><li><a href="#">');
-      indivNotif.push(['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
-      notifArr.push(indivNotif.join(''));
-      indivNotif.length = 0;
-    }
-    notifArr.push('</ul>');
-    msgContent.html(notifArr.join('\n'));
-  }
-
-  function onShowAnnouns(data) {
-    var announsArr = [],
-        indivAnnoun = [];
-    announsArr.push('<ul id="announs_list">');
-    for (var i = 0; i < data.rec.length; i++) {
-      indivAnnoun.push('<li data-announs-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].class.id + '">' + data.rec[i].class.name + '<br/>' + data.rec[i].title);
-      indivAnnoun.push('<br/>' + data.rec[i].time + ' ' + data.rec[i].date + '<div class="listOptions"><ul><li><a href="#">');
-      indivAnnoun.push(['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
-      announsArr.push(indivAnnoun.join(''));
-      indivAnnoun.length = 0;
-    }
-    announsArr.push('</ul>');
-    msgContent.html(announsArr.join('\n'));
-    
-  }
-
-  function onShowUsers(data) {
-    var usersArr = [],
-        indivUser = [];
-    usersArr.push('<ul id="users_list">');
-    for (var i = 0; i < data.rec.length; i++) {
-      indivUser.push('<li data-users-id="' + data.rec[i].id + '" data-class-id="' + data.rec[i].id + '">' + data.rec[i].first_name + ' ' + data.rec[i].last_name + '<div class="listOptions"><ul><li><a href="#">');
-      indivUser.push(['Send Message', 'View Profile'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>');
-      usersArr.push(indivUser.join(''));
-      indivUser.length = 0;
-    }
-    usersArr.push('</ul>');
-    msgContent.html(usersArr.join('\n'));
+    dataArr.push('</ul>');
+    msgContent.html(dataArr.join('\n'));
   }
 
   function showMsgBox() {
@@ -145,6 +100,7 @@
             success: function(res) {
               contentDiv.html(res);
               setButtonHandlers();
+              setListHandlers();
               getData('notifs');
             }
     });
@@ -192,7 +148,9 @@
         }(btn)));
       }
     }
-
+  }
+  
+  function setListHandlers() {
     $('.checkAll').on('change', function() {
       var self = this;
       $('#msgContent').find('input[type="checkbox"]').each(function() {
@@ -200,7 +158,49 @@
       });
     });
 
-    console.log(document.getElementsByClassName('dropdown'));
+    $('.dropdown').on('click', function() {
+      setDropdownHandler(this);
+      setFilterHandler();
+    });
+
+    $('#msgInt > ul > li').on('mouseleave', function() {
+      $(this).parent().parent().find('.filtersMenu').css('display', 'none');
+    });
+  }
+  
+  function setDropdownHandler(dropdown) {
+    var getClasses = [];
+    $('#msgContent > ul > li').each(function() {
+      var id = $(this).data(id).classId.replace(/^\s+|\s+$/g, ''),
+          name = $(this).find('.class_name').text();
+      if (!getClasses[id]) {
+        getClasses[id] = {name: name};
+      }
+    });
+    $(dropdown).parent().parent().find('.filtersMenu').css('display', 'block').html(function() {
+      var classList = '';
+      for (var id in getClasses) {
+        classList += getClasses[id].name + '<input type="checkbox" class="filterClass" value="' + id + '"/>' + '<br/>';
+      }
+      return classList;
+    });
+  }
+
+  function setFilterHandler() {
+    $('.filterClass').on('change', function() {
+      var filterVals = [];
+      $(this).parent().find('input.filterClass:checked').each(function() {
+        filterVals.push($(this).val());
+      });
+      $('#msgContent > ul > li').each(function() {
+        var id = $(this).data(id).classId.replace(/^\s+|\s+$/g, '');
+        if (filterVals.indexOf(id) > -1 || filterVals.length === 0) {
+          $(this).css('display', 'block');
+        } else {
+          $(this).css('display', 'none');
+        }
+      });
+    });
   }
 
   function selectBtn(btnArr, selectedBtn) {
@@ -217,23 +217,51 @@
 
   function getData(type) {
     var user = splitCookie(document.cookie);
-    socket.emit('get:' + type, { 
-      uid: user.uid,
-      uname: user.uname
+    $.ajax({url: "get/" + type,
+            type: "GET",
+            data: {
+              uid: user.uid,
+              uname: user.uname
+            },
+            success: function(res) {
+              var data = {rec: JSON.parse(res)},
+                  listId = type + '_list';
+              successGet(data, type, listId);
+            }
     });
+  }
+
+  /**
+   * TODO: Cleanup formatting
+   */
+  function successGet(data, type, listId) {
+    if (type === "msgs") {
+      format = '<li data-msg-id="%s" data-class-id="%s"><span class="class_name">%s</span> - %s<br/>%s %s<br/>%s %s<div class="listOptions"><ul><li><a href="#">';
+      format += ['Mark as read', 'Delete', 'Reply', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
+      include = ['id', ['class', 'id'], ['class', 'name'], 'title', ['sender', 'first_name'], ['sender', 'last_name'], 'time', 'date'];
+    } else if (type === "notifs") {
+      format = '<li data-notifs-id="%s" data-class-id="%s"><span class="class_name">%s</span><br/>%s<br/>%s %s<div class="listOptions"><ul><li><a href="#">';
+      format += ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
+      include = ['id', ['class', 'id'], ['class', 'name'], 'title', 'time', 'date'];
+    } else if (type === "announs") {
+      format = '<li data-announs-id="%s" data-class-id="%s"><span class="class_name">%s</span><br/>%s<br/>%s %s<div class="listOptions"><ul><li><a href="#">';
+      format += ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
+      include = ['id', ['class', 'id'], ['class', 'name'], 'title', 'time', 'date'];
+    } else if (type === "users") {
+      format = '<li data-users-id="%s">%s %s<div class="listOptions"><ul><li><a href="#">';
+      format += ['Mark as read', 'Delete', 'Comment', 'Forward'].join('</a></li><li><a href="#">') + '</a></li></ul></div><input type="checkbox"/></li>';
+      include = ['id', 'first_name', 'last_name'];
+    }
+    onShowData(format, include, data, listId);
   }
 
   function showNewMessage(container) {
     container.html('<textarea></textarea>');
   }
 
-  /**
-   * Command to populate redis db with data for users, messages, etc.
-   */
-  function populateData() {
+  //Command to populate redis db with data for users, messages, etc.
+  exports.populateData = function() {
     socket.emit('populate');
-  }
-
-  exports.populateData = populateData;
+  };
 
 }(this));
