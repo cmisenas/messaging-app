@@ -29,7 +29,7 @@ Populate.prototype.populateUsers = function() {
 
 Populate.prototype.populateMessages = function() {
   var self = this;
-  fs.readFile('inbox.json', 'utf-8', function(err, data) {
+  fs.readFile('msgs.json', 'utf-8', function(err, data) {
     if (err) {
       console.log(err);
     } else {
