@@ -67,10 +67,6 @@
   function setEventHandlers() {
     socket.on("error", onError);
     socket.on("loggedin", onLoggedIn);
-    socket.on("show:msgs", onShowMessages);
-    socket.on("show:notifs", onShowNotifs);
-    socket.on("show:announs", onShowAnnouns);
-    socket.on("show:users", onShowUsers);
   }
 
   function onError(data) {
@@ -204,7 +200,13 @@
       });
     });
 
-    console.log(document.getElementsByClassName('dropdown'));
+    $('.dropdown').on('click', function() {
+      $(this).parent().parent().find('.filtersMenu').css('display', 'block');
+    });
+
+    $('#msgInt > ul > li').on('mouseleave', function() {
+      $(this).parent().parent().find('.filtersMenu').css('display', 'none').html('HERE');
+    });
   }
 
   function selectBtn(btnArr, selectedBtn) {
@@ -221,9 +223,27 @@
 
   function getData(type) {
     var user = splitCookie(document.cookie);
-    socket.emit('get:' + type, { 
-      uid: user.uid,
-      uname: user.uname
+    /**
+     * Ajax
+     */
+    $.ajax({url: "get/" + type,
+            type: "GET",
+            data: {
+              uid: user.uid,
+              uname: user.uname
+            },
+            success: function(res) {
+              var data = {rec: JSON.parse(res)};
+              if (type === "msgs") {
+                onShowMessages(data);
+              } else if (type === "notifs") {
+                onShowNotifs(data);
+              } else if (type === "announs") {
+                onShowAnnouns(data);
+              } else if (type === "users") {
+                onShowUsers(data);
+              }
+            }
     });
   }
 
