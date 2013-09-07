@@ -261,8 +261,9 @@
   }
 
   //Command to populate redis db with data for users, messages, etc.
-  exports.populateData = function() {
+  function populateData() {
     socket.emit('populate');
   };
+  exports.populateData = populateData;
 
 }(this));
