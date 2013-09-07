@@ -5,6 +5,7 @@
       msgContent, socket;
   
   init();
+  populateData();
   //Check first if user is logged in with cookies
   if (userCookie.length && userCookie.uid && userCookie.uname) {
     showMsgBox();
