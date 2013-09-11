@@ -179,10 +179,11 @@
       }
     });
     $(dropdown).parent().parent().find('.filtersMenu').css('display', 'block').html(function() {
-      var classList = '';
+      var classList = '<ul>';
       for (var id in getClasses) {
-        classList += getClasses[id].name + '<input type="checkbox" class="filterClass" value="' + id + '"/>' + '<br/>';
+        classList += '<li>' + getClasses[id].name + '<input type="checkbox" class="filterClass" value="' + id + '"/>' + '</li>';
       }
+      classList += '</ul>';
       return classList;
     });
   }
@@ -263,7 +264,8 @@
   //Command to populate redis db with data for users, messages, etc.
   function populateData() {
     socket.emit('populate');
-  };
+  }
+
   exports.populateData = populateData;
 
 }(this));
